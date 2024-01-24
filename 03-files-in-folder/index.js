@@ -9,7 +9,7 @@ fs.readdir(currentDirectory, { withFileTypes: true }, (err, files) => {
   }
 
   files.forEach((file) => {
-    const extFile = path.extname(file.name);
+    const extFile = path.extname(file.name).slice(1);
     const currentPath = `${currentDirectory}/${file.name}`;
     fs.stat(currentPath, (err, stats) => {
       if (err) {
@@ -17,7 +17,8 @@ fs.readdir(currentDirectory, { withFileTypes: true }, (err, files) => {
       } else {
         if (!file.isDirectory()) {
           const sizeFile = Math.round(stats.size / 1000);
-          console.log(`${file.name} - ${extFile} - ${sizeFile} Kb`);
+          const fileName = path.parse(file.name).name;
+          console.log(`${fileName} - ${extFile} - ${sizeFile} Kb`);
           //console.log(stats);
         }
       }
